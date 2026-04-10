@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
     if (tipo === 'categorie') {
       const categorie = await IngredientCategory.find({ attiva: true })
         .sort({ ordine: 1 })
-        .lean()
+        .lean() as any
       return NextResponse.json(categorie)
     }
 
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     const ingredienti = await Ingredient.find(filtro)
       .populate('categoria', 'nome icona sceltaMinima sceltaMassima')
       .sort({ ordine: 1 })
-      .lean()
+      .lean() as any
 
     return NextResponse.json(ingredienti)
   } catch {

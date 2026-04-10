@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     const piatti = await MenuItem.find(filtro)
       .populate('categoria', 'nome icona')
       .sort({ ordine: 1, nome: 1 })
-      .lean()
+      .lean() as any
 
     return NextResponse.json(piatti)
   } catch {

@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
       if (!dataStr) return NextResponse.json({ error: 'Data richiesta' }, { status: 400 })
 
       const data = parseISO(dataStr)
-      const settings = await Settings.findOne().lean()
+      const settings = await Settings.findOne().lean() as any
 
       if (!settings) return NextResponse.json({ error: 'Configurazione mancante' }, { status: 500 })
 
@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
     const data = parseISO(dataStr)
 
     // Verifica disponibilità posti
-    const settings = await Settings.findOne().lean()
+    const settings = await Settings.findOne().lean() as any
     if (!settings) return NextResponse.json({ error: 'Configurazione mancante' }, { status: 500 })
 
     const giornoSettimana = data.getDay()

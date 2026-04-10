@@ -29,11 +29,11 @@ export async function GET(req: NextRequest) {
 
     let settings
     if (pubblico) {
-      settings = await Settings.findOne({}, CAMPI_PUBBLICI).lean()
+      settings = await Settings.findOne({}, CAMPI_PUBBLICI).lean() as any
     } else {
       const session = await getServerSession(authOptions)
       if (!session) return NextResponse.json({ error: 'Non autorizzato' }, { status: 401 })
-      settings = await Settings.findOne().lean()
+      settings = await Settings.findOne().lean() as any
     }
 
     // Se non esistono settings, crea quelli di default

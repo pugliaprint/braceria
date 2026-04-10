@@ -12,7 +12,7 @@ import Category from '@/models/Category'
 export async function GET() {
   try {
     await connectDB()
-    const categorie = await Category.find({ attiva: true }).sort({ ordine: 1, nome: 1 }).lean()
+    const categorie = await Category.find({ attiva: true }).sort({ ordine: 1, nome: 1 }).lean() as any
     return NextResponse.json(categorie)
   } catch {
     return NextResponse.json({ error: 'Errore server' }, { status: 500 })
