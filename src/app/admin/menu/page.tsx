@@ -89,7 +89,7 @@ export default function AdminMenuPage() {
 
   const apriModificaPiatto = (p: Piatto) => {
     const catId = typeof p.categoria === 'object' ? p.categoria._id : p.categoria
-    setFormPiatto({ ...p, prezzo: String(p.prezzo), categoria: catId, immagine: p.immagine ?? '' })
+    setFormPiatto({ ...p, prezzo: String(p.prezzo), categoria: catId, immagine: p.immagine ?? '', descrizione: p.descrizione ?? '' })
     setEditingPiatto(p._id)
     setShowFormPiatto(true)
   }
