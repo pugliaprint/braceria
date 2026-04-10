@@ -1,0 +1,153 @@
+/* src/app/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: #0A0A0A;
+    color: #EDE0D0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Scrollbar custom */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #1A1410; }
+  ::-webkit-scrollbar-thumb { background: #3D3028; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #D35400; }
+
+  /* Focus visible */
+  *:focus-visible {
+    outline: 2px solid #E67E22;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* Bottone primario - fuoco */
+  .btn-primary {
+    @apply bg-gradient-fuoco text-white font-semibold px-6 py-3 rounded-xl
+           shadow-fuoco hover:shadow-fuoco-lg active:scale-95
+           transition-all duration-200 text-base
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+
+  /* Bottone secondario - bordo */
+  .btn-secondary {
+    @apply border-2 border-brace-brace text-brace-brace font-semibold px-6 py-3 rounded-xl
+           hover:bg-brace-brace hover:text-white active:scale-95
+           transition-all duration-200 text-base
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Bottone ghost */
+  .btn-ghost {
+    @apply text-brace-testo-soft hover:text-brace-testo font-medium px-4 py-2 rounded-lg
+           hover:bg-brace-fumo active:scale-95 transition-all duration-150;
+  }
+
+  /* Card base */
+  .card {
+    @apply bg-brace-carbone rounded-xl3 shadow-card border border-brace-fumo/50
+           overflow-hidden;
+  }
+
+  /* Input */
+  .input {
+    @apply bg-brace-cenere border border-brace-fumo text-brace-testo
+           placeholder:text-brace-testo-soft
+           rounded-xl px-4 py-3 w-full text-base
+           focus:outline-none focus:border-brace-arancio focus:ring-1 focus:ring-brace-arancio/30
+           transition-colors duration-150;
+  }
+
+  /* Label */
+  .label {
+    @apply block text-sm font-medium text-brace-testo-soft mb-1.5;
+  }
+
+  /* Badge stato ordine */
+  .badge-nuovo      { @apply bg-red-900/50 text-red-300 border border-red-700/50; }
+  .badge-prep       { @apply bg-yellow-900/50 text-yellow-300 border border-yellow-700/50; }
+  .badge-pronto     { @apply bg-green-900/50 text-green-300 border border-green-700/50; }
+  .badge-consegnato { @apply bg-blue-900/50 text-blue-300 border border-blue-700/50; }
+
+  /* Divisore con brace */
+  .divider-brace {
+    @apply flex items-center gap-3 my-6;
+  }
+  .divider-brace::before,
+  .divider-brace::after {
+    @apply content-[''] flex-1 h-px bg-gradient-to-r from-transparent via-brace-fumo to-transparent;
+  }
+
+  /* Testo gradiente fuoco */
+  .text-gradient-fuoco {
+    @apply bg-gradient-fuoco bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  /* Sfondo con texture carbone */
+  .bg-texture-carbone {
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(211, 84, 0, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(192, 57, 43, 0.05) 0%, transparent 50%);
+  }
+
+  /* Animazione numero ordine */
+  .animate-count-up {
+    animation: countUp 0.3s ease-out;
+  }
+
+  /* Touch-friendly tap */
+  .tap-highlight-none {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Safe area per iPhone */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* ---- Animazioni globali ---- */
+@keyframes countUp {
+  from { transform: translateY(10px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* Fuoco animato per elementi decorativi */
+@keyframes ember {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+  50%       { transform: translateY(-8px) scale(0.9); opacity: 0.4; }
+}
+
+.animate-ember {
+  animation: ember 2s ease-in-out infinite;
+}
+.animate-ember-delay {
+  animation: ember 2s ease-in-out infinite 0.7s;
+}
