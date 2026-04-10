@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
 
     // Controlla delivery attivo
     if (tipo === 'delivery') {
-      const settings = await Settings.findOne().lean()
+      const settings = await Settings.findOne().lean() as any
       if (!settings?.deliveryAttivo) {
         return NextResponse.json(
           { error: 'Il servizio di consegna è momentaneamente sospeso' },
