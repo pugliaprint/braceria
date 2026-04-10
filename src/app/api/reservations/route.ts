@@ -36,15 +36,15 @@ export async function GET(req: NextRequest) {
 
       // Fasce cena
       const fasceCena = settings.fasceOrarieDefault
-        .filter(f => f.attiva)
-        .map(f => f.ora)
+        .filter((f: any) => f.attiva)
+        .map((f: any) => f.ora)
       fasce = [...fasceCena]
 
       // Fasce pranzo (solo domenica se attivo)
       if (isDomenica && settings.pranzoDomenicaAttivo) {
         const fascePranzoAttive = settings.fascePranzo
-          .filter(f => f.attiva)
-          .map(f => f.ora)
+          .filter((f: any) => f.attiva)
+          .map((f: any) => f.ora)
         fasce = [...fascePranzoAttive, ...fasceCena]
       }
 
