@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
 
     // Valida PIN cucina se presente
     if (!session && pinCucina) {
-      const settings = await Settings.findOne().lean()
+      const settings = await Settings.findOne().lean() as any
       if (settings?.pinCucina !== pinCucina) {
         return NextResponse.json({ error: 'PIN non valido' }, { status: 401 })
       }
