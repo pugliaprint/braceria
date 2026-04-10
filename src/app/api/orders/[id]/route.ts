@@ -11,9 +11,11 @@ import Order from '@/models/Order'
 import Settings from '@/models/Settings'
 import pusherServer, { PUSHER_CHANNELS, PUSHER_EVENTS } from '@/lib/pusher'
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+type RouteContext = { params: Promise<{ id: string }> }
+
+export async function PUT(req: NextRequest, { params }: RouteContext) {
+  const { id } = await params
   try {
-    // Verifica autorizzazione: admin o PIN cucina
     const pinCucina = req.headers.get('x-cucina-pin')
     const session = await getServerSession(authOptions)
 
@@ -31,12 +33,11 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 
     const body = await req.json()
-    const ordine = await Order.findByIdAndUpdate(params.id, body, { new: true })
+    const ordine = await Order.findByIdAndUpdate(id, body, { new: true })
     if (!ordine) return NextResponse.json({ error: 'Non trovato' }, { status: 404 })
 
-    // Notifica aggiornamento a tutti i client (cucina + cliente che monitora)
     await pusherServer.trigger(PUSHER_CHANNELS.CUCINA, PUSHER_EVENTS.AGGIORNAMENTO_STATO, {
-      ordineId: params.id,
+      ordineId: id,
       nuovoStato: body.stato,
       ordine: ordine.toObject(),
     })
@@ -47,10 +48,11 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_: NextRequest, { params }: RouteContext) {
+  const { id } = await params
   try {
     await connectDB()
-    const ordine = await Order.findById(params.id).lean()
+    const ordine = await Order.findById(id).lean()
     if (!ordine) return NextResponse.json({ error: 'Non trovato' }, { status: 404 })
     return NextResponse.json(ordine)
   } catch {
